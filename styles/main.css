@@ -1,0 +1,56 @@
+:root {
+    --background-color: #2b2024;
+    --light-background: #fbf9fa;
+}
+
+#page-home {
+    background-color: var(--background-color);
+
+    height: 100vh;
+    width: 100vw;
+    color: var(--background-color);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+header {
+    background-color: var(--light-background);
+    width: 100%;
+
+    font-size: 50px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header h1 {
+    line-height: 1.3em;
+    font-family: 'Montserrat Subrayada', sans-serif;
+}
+
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 100%;
+}
+
+
+.container {
+    width: 600px;
+    height: 600px;
+    border: 5px solid var(--light-background);
+
+    border-radius: 10px;
+}
+
+.container .grid {
+    display: grid;
+
+}
