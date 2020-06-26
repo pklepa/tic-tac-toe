@@ -1,4 +1,8 @@
 // ..:: Global Variables
+const overlay = document.querySelector('.overlay');
+const overlayPvp = document.querySelector('.pvp');
+const overlayIntro = document.querySelector('.intro');
+const overlayGameOver = document.querySelector('.gameOver');
 
 
 
@@ -8,14 +12,12 @@ gridItems.forEach((item)=>{
     item.addEventListener('click', gridClick);
 });
 
-const btnPvp = document.querySelector('#btn-PvP');
-btnPvp.addEventListener('click', () => {
-    document.querySelector('.intro').classList.add('hide');
-    document.querySelector('.pvp').classList.remove('hide');
+document.querySelector('#btn-PvP').addEventListener('click', () => {
+    overlayIntro.classList.add('hide');
+    overlayPvp.classList.remove('hide');
 });
 
-const btnPvC = document.querySelector('#btn-PvC');
-btnPvC.addEventListener('click', () => {
+document.querySelector('#btn-PvC').addEventListener('click', () => {
     alert('Sorry, Player vs Computer not yet implemented');
 });
 
@@ -23,9 +25,13 @@ document.querySelector('#btnStartPvP').addEventListener('click', () => {
     GameBoard.setPlayerName(1, document.querySelector('#nameP1').value);
     GameBoard.setPlayerName(2, document.querySelector('#nameP2').value);
 
-    document.querySelector('.overlay').classList.add('hide');
+    overlay.classList.add('hide');
+    overlayPvp.classList.add('hide');
 });
 
+document.querySelector('#btnPlayAgain').addEventListener('click', () => {
+    GameBoard.resetBoard();
+});
 
 
 // ..:: Functions
@@ -64,7 +70,11 @@ const GameBoard = (() => {
     player2.setName('Player 2');
 
     const createBoard = () => { boardArr = [[], [], []] };
-    const resetBoard = () => { createBoard(); gameStatus.isOver = false; }
+    const resetBoard = () => { 
+        createBoard(); 
+        displayController.resetGrid();
+        status.isOver = false; 
+    }
 
     const getBoard = function(){
         if(!boardArr) createBoard();
@@ -99,13 +109,10 @@ const GameBoard = (() => {
 
             let column = [];
             for (let j = 0; j < 3; j++) {
-                column.push(boardArr[i][j]);                
+                column.push(boardArr[j][i]);                
             }
             if (JSON.stringify(column) == winningArr) { return true }                        
         }
-
-        console.log({winningArr})
-        console.log({mainDiaog})
 
         // If no tests are true, return false
         return false
@@ -131,13 +138,23 @@ const GameBoard = (() => {
     }
 
 
-    return { setPlayerName, play, resetBoard, status }
+    return { setPlayerName, play, resetBoard, status, getBoard}
 })();
 
 
 
 // Module for display control
 const displayController = (() => {
+
+    const gameOver = () => {
+        // alert (`Game over. ${GameBoard.status.winningPlayer.getName()} won!`);
+
+        document.querySelector('.overlay .gameOver strong').textContent = GameBoard.status.winningPlayer.getName();
+
+        overlay.classList.remove('hide');
+        overlayGameOver.classList.remove('hide');
+        overlay.setAttribute('style', 'opacity: 80%;');
+    };
 
     const render = (HTMLElem) => {
         // Adds the play to the board
@@ -148,11 +165,15 @@ const displayController = (() => {
         }
     }
 
-    const gameOver = () => {
-        alert (`Game over. ${GameBoard.status.winningPlayer.getName()} won!`);
+    const resetGrid = () => {
+        // Removes all entries in the board
+        document.querySelectorAll('.item-content').forEach(cell => { cell.textContent = "" });
+
+        overlay.classList.add('hide');
+        overlayGameOver.classList.add('hide');
     };
 
-    return { render }
+    return { render, resetGrid }
 })();
 
 

@@ -250,6 +250,30 @@ input[type="text"] { width: 100%; }
     transition: 200ms;
 }
 
+.overlay .gameOver {
+    display: flex;
+    flex-direction: column;
+}
+
+.overlay .gameOver h1 {
+    font-size: 40px;
+    font-family: 'Montserrat Subrayada', sans-serif;
+}
+
+.overlay .gameOver p {
+    margin-top: 40px;
+
+    font-size: 20px;
+}
+
+.overlay .gameOver .buttons {
+    margin-top: 150px;
+    font-weight: bold;
+}
+
+.overlay .gameOver .buttons a + a{
+    margin-left: 80px;
+}
 
 .hide {
     display: none!important;
