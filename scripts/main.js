@@ -33,6 +33,15 @@ document.querySelector('#btnPlayAgain').addEventListener('click', () => {
     GameBoard.resetBoard();
 });
 
+document.querySelector('#btnMenu').addEventListener('click', () => {
+    GameBoard.resetBoard();
+
+    overlay.classList.remove('hide');
+    overlayIntro.classList.remove('hide');
+
+    overlay.setAttribute('style', 'opacity: 100%;');
+});
+
 
 // ..:: Functions
 
@@ -153,7 +162,7 @@ const displayController = (() => {
 
         overlay.classList.remove('hide');
         overlayGameOver.classList.remove('hide');
-        overlay.setAttribute('style', 'opacity: 80%;');
+        overlay.setAttribute('style', 'opacity: 90%;');
     };
 
     const render = (HTMLElem) => {
