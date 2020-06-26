@@ -54,7 +54,7 @@ const Player = str => {
 
     let playerName = 'Player';
 
-    const setName = name => { playerName = name; }
+    const setName = name => { if (name != "") playerName = name }
     const getName = () => { return playerName }
 
     const getString = () => { return str == 'x' ? x : o; };
@@ -71,6 +71,7 @@ const GameBoard = (() => {
     let status = { 
             currentPlayer: '', 
             winningPlayer: '',
+            isTied: false,
             isOver: false 
         };
     const player1 = Player('x');
@@ -83,6 +84,7 @@ const GameBoard = (() => {
         createBoard(); 
         displayController.resetGrid();
         status.isOver = false; 
+        status.isTied = false;
     }
 
     const getBoard = function(){
@@ -91,13 +93,17 @@ const GameBoard = (() => {
     };
 
     const setPlayerName = (player, name) => {
-            if (player == 1) { player1.setName(name) } else { player2.setName(name) }
-        };
+        if (player == 1) { player1.setName(name) } else { player2.setName(name) }
+    };
 
     const alternatePlayer = () => { status.currentPlayer = status.currentPlayer == player1 ? player2 : player1 }
 
 
-    const gameOver = () => { status.isOver = true; status.winningPlayer = status.currentPlayer; }
+    const gameOver = () => { 
+        status.isOver = true;
+
+        if (status.isTied == false) { status.winningPlayer = status.currentPlayer; }
+    };
 
     // Returns true if game is over, false if not
     const tryGameOver = () => {
@@ -122,6 +128,18 @@ const GameBoard = (() => {
             }
             if (JSON.stringify(column) == winningArr) { return true }                        
         }
+
+        // Test if the game ended in a tie
+        let isGameTied = [];
+        for (let i = 0; i < 3; i++) {
+            if (boardArr[i].length == 3) {
+                if (boardArr[i].findIndex((arg) => { return arg == undefined }) == -1) {
+                    isGameTied.push(true);
+                } 
+            }           
+        }
+        if (isGameTied.length == 3) { status.isTied = true; return true }
+
 
         // If no tests are true, return false
         return false
@@ -156,9 +174,14 @@ const GameBoard = (() => {
 const displayController = (() => {
 
     const gameOver = () => {
-        // alert (`Game over. ${GameBoard.status.winningPlayer.getName()} won!`);
 
-        document.querySelector('.overlay .gameOver strong').textContent = GameBoard.status.winningPlayer.getName();
+        if (GameBoard.status.isTied == true) {
+            document.querySelector('.overlay .gameOver strong').textContent = `It's a tie!`;
+            document.querySelector('.overlay .gameOver p#endMsg').textContent = ` Maybe next time...`;            
+        } else {
+            document.querySelector('.overlay .gameOver strong').textContent = GameBoard.status.winningPlayer.getName();
+            document.querySelector('.overlay .gameOver p#endMsg').textContent = ' won the game!';
+        }
 
         overlay.classList.remove('hide');
         overlayGameOver.classList.remove('hide');
@@ -197,6 +220,3 @@ function gridClick(e) {
     // If cell is empty, make the play and render the board
     if (GameBoard.play(e.target.dataset.elem)) displayController.render(item);
 }
-
-
-// ..:: Script

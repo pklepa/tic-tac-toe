@@ -260,11 +260,21 @@ input[type="text"] { width: 100%; }
     font-family: 'Montserrat Subrayada', sans-serif;
 }
 
-.overlay .gameOver p {
-    margin-top: 40px;
+.overlay .gameOver .msg-container {
+    display: flex;
+    justify-content: center;
 
+    margin-top: 40px;
+}
+
+.overlay .gameOver p {
     font-size: 20px;
 }
+
+.overlay .gameOver p + p{
+    margin-left: 5px;
+}
+
 
 .overlay .gameOver .buttons {
     margin-top: 150px;
