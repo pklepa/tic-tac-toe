@@ -8,6 +8,23 @@ gridItems.forEach((item)=>{
     item.addEventListener('click', gridClick);
 });
 
+const btnPvp = document.querySelector('#btn-PvP');
+btnPvp.addEventListener('click', () => {
+    document.querySelector('.intro').classList.add('hide');
+    document.querySelector('.pvp').classList.remove('hide');
+});
+
+const btnPvC = document.querySelector('#btn-PvC');
+btnPvC.addEventListener('click', () => {
+    alert('Sorry, Player vs Computer not yet implemented');
+});
+
+document.querySelector('#btnStartPvP').addEventListener('click', () => {
+    GameBoard.setPlayerName(1, document.querySelector('#nameP1').value);
+    GameBoard.setPlayerName(2, document.querySelector('#nameP2').value);
+
+    document.querySelector('.overlay').classList.add('hide');
+});
 
 
 
@@ -20,11 +37,15 @@ const Player = str => {
     const x = 'close'; 
     const o = 'fiber_manual_record';
 
+    let playerName = 'Player';
+
+    const setName = name => { playerName = name; }
+    const getName = () => { return playerName }
 
     const getString = () => { return str == 'x' ? x : o; };
     const getSimpleString = () => { return str };
 
-    return { getString, getSimpleString }
+    return { getString, getSimpleString, setName, getName }
 }
 
 
@@ -34,10 +55,13 @@ const GameBoard = (() => {
     let boardArr;
     let status = { 
             currentPlayer: '', 
+            winningPlayer: '',
             isOver: false 
         };
     const player1 = Player('x');
     const player2 = Player('o');
+    player1.setName('Player 1');
+    player2.setName('Player 2');
 
     const createBoard = () => { boardArr = [[], [], []] };
     const resetBoard = () => { createBoard(); gameStatus.isOver = false; }
@@ -47,11 +71,14 @@ const GameBoard = (() => {
         return boardArr
     };
 
+    const setPlayerName = (player, name) => {
+            if (player == 1) { player1.setName(name) } else { player2.setName(name) }
+        };
+
     const alternatePlayer = () => { status.currentPlayer = status.currentPlayer == player1 ? player2 : player1 }
 
-    const getCurrentPlayer = () => { return status.currentPlayer };
 
-    const gameOver = () => { status.isOver = true; }
+    const gameOver = () => { status.isOver = true; status.winningPlayer = status.currentPlayer; }
 
     // Returns true if game is over, false if not
     const tryGameOver = () => {
@@ -104,7 +131,7 @@ const GameBoard = (() => {
     }
 
 
-    return { play, resetBoard, getCurrentPlayer, status }
+    return { setPlayerName, play, resetBoard, status }
 })();
 
 
@@ -113,12 +140,17 @@ const GameBoard = (() => {
 const displayController = (() => {
 
     const render = (HTMLElem) => {
+        // Adds the play to the board
         HTMLElem.textContent = GameBoard.status.currentPlayer.getString();
 
         if (GameBoard.status.isOver){
-            alert ('Game over!');
+            gameOver()
         }
     }
+
+    const gameOver = () => {
+        alert (`Game over. ${GameBoard.status.winningPlayer.getName()} won!`);
+    };
 
     return { render }
 })();

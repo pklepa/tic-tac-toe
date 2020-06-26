@@ -23,14 +23,6 @@
 
 
         <main>
-            <div class="intro">
-                <p><strong>Tic-Tac-Toe</strong> is a fairly simple game in which 2 players alternate diferent markings in a 3x3 grid.</p>
-                <p>First one to complete either <strong>full straight line</strong> or a <strong>diagonal</strong> with its markings, <strong>wins!</strong></p>
-                <div class="play-buttons">
-                    <a class="selected" id="btn-play" href="#"><strong>Player</strong> vs <strong>Player</strong></a>
-                    <a id="btn-play" href="#"><strong>Player</strong> vs <strong>Computer</strong></a>
-                </div>
-            </div>
 
             <div class="container">
                 <div class="grid">
@@ -61,7 +53,40 @@
                     <div class="grid-item" data-elem="22">
                         <div class="item-content"></div>
                     </div>
-                </div>         
+                </div>
+
+                <div class="overlay ">
+                    <div class="intro ">
+                        <p><strong>Tic-Tac-Toe</strong> is a simple game in which 2 players alternate diferent markings in a 3x3 grid.
+                        The first to complete either a <strong>full straight line</strong> (row or column) or a <strong>diagonal</strong> with its markings, <strong>wins!</strong></p>
+                        <div class="play-buttons">
+                            <a class="" id="btn-PvP" href="#"><strong>Player</strong> vs <strong>Player</strong></a>
+                            <a id="btn-PvC" href="#"><strong>Player</strong> vs <strong>Computer</strong></a>
+                        </div>
+                    </div>
+
+                    <div class="pvp hide">
+                        <a class="selected" href="#"><strong>Player</strong> vs <strong>Player</strong></a>
+
+                        <div class="form">
+
+                            <div class="stylish-input">
+                                <input type="text" name="player1" id="nameP1" placeholder="Player 1" spellcheck=false>
+                                <span class="border"></span>
+                            </div>
+
+                            <div class="stylish-input">
+                                <input type="text" name="player2" id="nameP2" placeholder="Player 2" spellcheck=false>
+                                <span class="border"></span>
+                            </div>
+
+                        </div>
+                        
+                        <button id="btnStartPvP">Start</button>
+
+                    </div>
+                </div> 
+
             </div>
         </main>
 
