@@ -147,7 +147,7 @@ const GameBoard = (() => {
     }
 
 
-    return { setPlayerName, play, resetBoard, status, getBoard}
+    return { setPlayerName, play, resetBoard, status}
 })();
 
 
